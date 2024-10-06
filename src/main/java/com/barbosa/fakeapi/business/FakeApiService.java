@@ -1,7 +1,7 @@
 package com.barbosa.fakeapi.business;
 
 import com.barbosa.fakeapi.apiv1.dto.ProductsDto;
-import com.barbosa.fakeapi.infrastructure.FakeApiClient;
+import com.barbosa.fakeapi.infrastructure.client.FakeApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

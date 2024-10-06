@@ -1,4 +1,4 @@
-package com.barbosa.fakeapi.infrastructure;
+package com.barbosa.fakeapi.infrastructure.client;
 
 import com.barbosa.fakeapi.apiv1.dto.ProductsDto;
 import org.springframework.cloud.openfeign.FeignClient;
