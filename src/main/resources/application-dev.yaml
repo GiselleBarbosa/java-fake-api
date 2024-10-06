@@ -1,5 +1,5 @@
 fake-api:
-  url: "https://fakestoreapi.com"
+  url: https://fakestoreapi.com
 
 spring:
   cloud:
