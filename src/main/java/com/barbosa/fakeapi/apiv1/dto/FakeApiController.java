@@ -1,6 +1,6 @@
 package com.barbosa.fakeapi.apiv1.dto;
 
-import com.barbosa.fakeapi.business.FakeApiService;
+import com.barbosa.fakeapi.business.services.FakeApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,7 +27,7 @@ public class FakeApiController {
 
     @Operation(summary = "Busca todos os produtos", method = "GET")
     @GetMapping("")
-    public ResponseEntity<List<ProductsDto>> buscaTodosProdutos() {
+    public ResponseEntity<List<ProductsDTO>> buscaTodosProdutos() {
         return ResponseEntity.ok(fakeApiService.buscaTodosProdutos());
     }
 

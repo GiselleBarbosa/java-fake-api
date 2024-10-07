@@ -1,6 +1,6 @@
 package com.barbosa.fakeapi.infrastructure.client;
 
-import com.barbosa.fakeapi.apiv1.dto.ProductsDto;
+import com.barbosa.fakeapi.apiv1.dto.ProductsDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,5 +10,5 @@ import java.util.List;
 public interface FakeApiClient {
 
     @GetMapping("/products")
-    List<ProductsDto> buscaTodosProdutos();
+    List<ProductsDTO> buscaTodosProdutos();
 }
