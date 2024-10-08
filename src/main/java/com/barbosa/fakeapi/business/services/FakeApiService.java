@@ -3,6 +3,9 @@ package com.barbosa.fakeapi.business.services;
 import com.barbosa.fakeapi.apiv1.dto.ProductsDTO;
 import com.barbosa.fakeapi.business.converter.ProdutoConverter;
 import com.barbosa.fakeapi.infrastructure.client.FakeApiClient;
+import com.barbosa.fakeapi.infrastructure.error.NotificacaoErro;
+import com.barbosa.fakeapi.infrastructure.exceptions.BusinessException;
+import com.barbosa.fakeapi.infrastructure.exceptions.ConflictException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,27 +15,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FakeApiService {
 
-    private final FakeApiClient client;
+    private final FakeApiClient cliente;
     private final ProdutoConverter converter;
-    private final ProdutoService service;
+    private final ProdutoService produtoService;
 
-    public List<ProductsDTO> buscaTodosProdutos() {
-
+    @NotificacaoErro
+    public List<ProductsDTO> buscaProdutos() {
         try {
-            List<ProductsDTO> dto = client.buscaTodosProdutos();
-            dto.forEach(
-                    produto -> {
-                        Boolean retorno = service.existeProdutoPorNome(produto.getNome());
-                        if (retorno.equals(false)) {
-                            service.salvaProduto(converter.toEntity(produto));
-                        }
-//                        throw new RuntimeException(format("Produto já cadastrado no banco de dados.", produto.getNome()));
-                    }
-            );
-            return converter.toListDTO(service.buscaTodosProdutos());
 
+
+            List<ProductsDTO> dto = cliente.buscaTodosProdutos();
+            dto.forEach(produto -> {
+                        Boolean retorno = produtoService.existsPorNome(produto.getNome());
+                        if (retorno.equals(false)) {
+                            produtoService.salvaProduto(converter.toEntity(produto));
+                        } else {
+                            throw new ConflictException("Produto já existente no banco de dados " + produto.getNome());
+                        }
+                    }
+
+            );
+            return produtoService.buscaTodosProdutos();
+        } catch (ConflictException e) {
+            throw new ConflictException(e.getMessage());
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao buscar e salvar produto no banco de dados");
+            throw new BusinessException("Erro ao buscar e gravar produtos no banco de dados");
         }
     }
 }
